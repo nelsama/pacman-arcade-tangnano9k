@@ -20,7 +20,8 @@
 --
 -- Coordenadas
 --   nativas (las del core): x = pixel en la linea 0..287, y = linea 0..223
---   pantalla 720x480, ROT90:  x = sy - Y_OFF,  y = 223 - (sx - X_OFF)
+--   pantalla 720x480, ROT90 y escala S = SC_NUM/SC_DEN:
+--     x = floor((sy - Y_OFF) / S),  y = 223 - floor((sx - X_OFF) / S)
 --
 -- La referencia de todas las formulas es tools/render_model.py, que se
 -- valida contra la imagen real del core (sim/tb_golden.vhd).
@@ -42,7 +43,12 @@ entity pacman_render is
     --   visibles solo en x = SXC-256 .. SXC-1 (buffer de linea de 256)
     --   los sprites 0 y 7 no se dibujan (el hardware solo tiene 6 ranuras)
     SXC    : integer := 273;
-    SYC    : integer := 31
+    SYC    : integer := 31;
+    -- Escala de la imagen en pantalla = SC_NUM / SC_DEN (vecino mas
+    -- cercano). 1/1 = tamano nativo 224x288; 6/5 = +20 % (269x346);
+    -- 3/2 = +50 % (336x432). El alto no puede pasar de 480.
+    SC_NUM : integer := 3;
+    SC_DEN : integer := 2
   );
   port (
     -- dominio del core
@@ -74,10 +80,21 @@ architecture RTL of pacman_render is
   constant V_SYNC  : integer := 6;
   constant V_TOTAL : integer := 525;
 
-  constant DST_W   : integer := 224;
-  constant DST_H   : integer := 288;
-  constant X_OFF   : integer := (H_VIS - DST_W) / 2;   -- 248
-  constant Y_OFF   : integer := (V_VIS - DST_H) / 2;   -- 96
+  -- tamano en pantalla: ceil(nativo * S), para que se vea todo el nativo
+  constant DST_W   : integer := (224 * SC_NUM + SC_DEN - 1) / SC_DEN;
+  constant DST_H   : integer := (288 * SC_NUM + SC_DEN - 1) / SC_DEN;
+  constant X_OFF   : integer := (H_VIS - DST_W) / 2;
+  constant Y_OFF   : integer := (V_VIS - DST_H) / 2;
+
+  -- floor(n / S) = floor(n * SC_DEN / SC_NUM) sin divisor: se multiplica
+  -- por el reciproco 2^18/SC_NUM redondeado hacia arriba (exacto para
+  -- n * SC_DEN < 2^18 / SC_NUM, de sobra para n < 480).
+  constant RCP     : integer := (2**18 + SC_NUM - 1) / SC_NUM;
+
+  function unscale (n : integer) return integer is
+  begin
+    return (n * SC_DEN * RCP) / 2**18;
+  end function;
 
   -- ------------------------------------------------------------------
   -- CDC de escrituras
@@ -318,8 +335,8 @@ begin
       sx := h - X_OFF;
       sy := v - Y_OFF;
       if (sx >= 0) and (sx < DST_W) and (sy >= 0) and (sy < DST_H) then
-        x  := sy;
-        y  := (DST_W - 1) - sx;
+        x  := unscale(sy);
+        y  := 223 - unscale(sx);
         tc := x / 8;
         vr := y / 8 + 2;
         if tc < 2 then
@@ -425,7 +442,7 @@ begin
   -- CONSTRUCTOR DE COLUMNA DE SPRITES
   -- ##################################################################
   -- Al empezar cada linea HDMI v se construye la columna de la linea v+1
-  -- (x nativa = v + 1 - Y_OFF) en el banco que no se muestra:
+  -- (x nativa = unscale(v + 1 - Y_OFF)) en el banco que no se muestra:
   --   B_CLEAR  256 ciclos: banco a 0
   --   B_SPR    sprites 6..1 x 16 filas (el 1 queda encima; 0 y 7 no se
   --            ven en el hardware original);
@@ -445,7 +462,11 @@ begin
         when B_IDLE =>
           if h = 0 then
             b_bank <= not b_bank;      -- el banco recien construido pasa a mostrarse
-            b_x    <= v + 1 - Y_OFF;
+            if (v + 1 - Y_OFF >= 0) and (v + 1 - Y_OFF < DST_H) then
+              b_x  <= unscale(v + 1 - Y_OFF);
+            else
+              b_x  <= -1000;           -- fuera de la imagen: ningun sprite
+            end if;
             b_cnt  <= (others => '0');
             bst    <= B_CLEAR;
           end if;

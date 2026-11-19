@@ -16,7 +16,9 @@ entity tb_render is
   generic (
     DUMP   : string  := "sim/golden/f0030.txt";
     SXC    : integer := 273;
-    SYC    : integer := 31
+    SYC    : integer := 31;
+    SC_NUM : integer := 6;
+    SC_DEN : integer := 5
   );
 end;
 
@@ -36,6 +38,12 @@ architecture sim of tb_render is
   signal o_hs, o_vs, o_de : std_logic;
 
   signal loaded : boolean := false;
+
+  -- referencia independiente del escalado (division exacta)
+  constant DW : integer := (224 * SC_NUM + SC_DEN - 1) / SC_DEN;
+  constant DH : integer := (288 * SC_NUM + SC_DEN - 1) / SC_DEN;
+  constant XO : integer := (720 - DW) / 2;
+  constant YO : integer := (480 - DH) / 2;
 
   type mem_t is array (natural range <>) of std_logic_vector(7 downto 0);
   type img_t is array (0 to 223, 0 to 287) of integer range 0 to 15;
@@ -79,7 +87,7 @@ begin
   clk_pix  <= not clk_pix  after T_PIX / 2;
 
   dut : entity work.pacman_render
-    generic map (SXC => SXC, SYC => SYC)
+    generic map (SXC => SXC, SYC => SYC, SC_NUM => SC_NUM, SC_DEN => SC_DEN)
     port map (
       clk_core => clk_core, snp_we => snp_we, snp_xy => snp_xy,
       snp_a => snp_a, snp_d => snp_d,
@@ -180,9 +188,9 @@ begin
     if o_de = '1' then
       if checking then
         got := o_r & o_g & o_b;
-        if (sx >= 248) and (sx < 472) and (sy >= 96) and (sy < 384) then
-          x   := sy - 96;
-          y   := 223 - (sx - 248);
+        if (sx >= XO) and (sx < XO + DW) and (sy >= YO) and (sy < YO + DH) then
+          x   := ((sy - YO) * SC_DEN) / SC_NUM;
+          y   := 223 - ((sx - XO) * SC_DEN) / SC_NUM;
           exp := rgb(img(y, x));
         else
           exp := x"000000";
@@ -192,7 +200,7 @@ begin
         else
           if errs < 12 then
             report "ERROR pantalla(" & integer'image(sx) & "," & integer'image(sy) &
-                   ") nativo(x=" & integer'image(sy - 96) & ",y=" & integer'image(223 - (sx - 248)) &
+                   ") ventana(" & integer'image(sx - XO) & "," & integer'image(sy - YO) & ")" &
                    ") esperado " & to_hstring(exp) & " leido " & to_hstring(got);
           end if;
           errs := errs + 1;

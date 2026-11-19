@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Verifica pacman_render contra un volcado golden.
-# Uso: sim/run_render.sh sim/golden/f0030.txt [SXC SYC]
+# Uso: sim/run_render.sh sim/golden/f0030.txt [SC_NUM SC_DEN]
 set -e
 cd "$(dirname "$0")/.."
 GHDL="C:/msys64/ucrt64/bin/ghdl.exe"
@@ -17,5 +17,5 @@ done
 $GHDL -e --std=08 -frelaxed -fsynopsys --workdir=$B -o $B/tb_render.exe tb_render
 [ -n "$1" ] || exit 0
 G="-gDUMP=$1"
-[ -n "$2" ] && G="$G -gSXC=$2 -gSYC=$3"
+[ -n "$2" ] && G="$G -gSC_NUM=$2 -gSC_DEN=$3"
 $B/tb_render.exe $G --ieee-asserts=disable --stop-time=100ms
