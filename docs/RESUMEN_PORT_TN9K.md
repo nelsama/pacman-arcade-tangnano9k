@@ -63,7 +63,8 @@ propio: `src/core/pacman_render.vhd`.
 | `sim/run_spr.sh` | Core con la CPU sustituida por una inerte y la memoria precargada con escenas de sprites |
 | `tools/spr_fit.py` | Mide dónde dibuja el core cada sprite |
 | `sim/run_render.sh` | Compara el renderizador VHDL con el core, pixel a pixel |
-| `sim/run_win.sh`, `sim/run_fbrot.sh` | Pruebas de la Fase 1 (ventana visible y rotación) |
+| `sim/run_win.sh` | Mide la ventana visible del core |
+| `sim/tb_net.vhd` | Simulación del netlist post-PnR con las primitivas de Gowin |
 
 **Posición de sprites medida contra el core:**
 

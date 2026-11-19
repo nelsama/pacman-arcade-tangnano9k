@@ -19,8 +19,8 @@
         <File path="src/core/pacman_mul4.vhd" type="file.vhdl" enable="1"/>
         <File path="src/core/pacman_program_rom.vhd" type="file.vhdl" enable="1"/>
         <File path="src/core/pacman_rams.vhd" type="file.vhdl" enable="1"/>
-        <File path="src/core/pacman_video.vhd" type="file.vhdl" enable="1"/>
         <File path="src/core/pacman_render.vhd" type="file.vhdl" enable="1"/>
+        <File path="src/core/pacman_video.vhd" type="file.vhdl" enable="1"/>
         <File path="src/core/pacman_vram_addr.vhd" type="file.vhdl" enable="1"/>
         <File path="src/core/pacrom_1m.vhd" type="file.vhdl" enable="1"/>
         <File path="src/core/pacrom_4a_dst.vhd" type="file.vhdl" enable="1"/>

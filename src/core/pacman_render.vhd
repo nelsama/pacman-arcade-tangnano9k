@@ -49,7 +49,7 @@ entity pacman_render is
     -- 3/2 = +50 % (336x432). El alto no puede pasar de 480.
     SC_NUM : integer := 3;
     SC_DEN : integer := 2
-  );
+  );    
   port (
     -- dominio del core
     clk_core : in  std_logic;
