@@ -55,6 +55,7 @@ o abriendo `PACMAN.gprj` en el IDE. El bitstream queda en
 
 ## Licencia
 
-Ver `LICENSE` (MIT, heredada del proyecto pacman-KR260 de MakarenaLabs). El core original es de MikeJ
+MIT (ver `LICENSE`): port a Tang Nano 9K (c) 2026 Nelson Figueroa, sobre el
+proyecto pacman-KR260 de MakarenaLabs. El core original es de MikeJ
 (FPGAArcade) y el T80 de Daniel Wallner, cada uno con su licencia en la
 cabecera de sus ficheros.
