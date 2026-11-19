@@ -1,0 +1,42 @@
+// Pac-Man en Tang Nano 9K (GW1NR-LV9QN88PC6/I5)
+// Pinout basado en el proyecto atari-2600 del mismo autor.
+
+// --- HDMI (banco 3, 3.3 V) -------------------------------------------------
+IO_LOC "hdmi_tmds_ck_p" 69,68;
+IO_PORT "hdmi_tmds_ck_p" PULL_MODE=NONE DRIVE=8 BANK_VCCIO=3.3;
+IO_LOC "hdmi_tmds_c2_p" 75,74;
+IO_PORT "hdmi_tmds_c2_p" PULL_MODE=NONE DRIVE=8 BANK_VCCIO=3.3;
+IO_LOC "hdmi_tmds_c1_p" 73,72;
+IO_PORT "hdmi_tmds_c1_p" PULL_MODE=NONE DRIVE=8 BANK_VCCIO=3.3;
+IO_LOC "hdmi_tmds_c0_p" 71,70;
+IO_PORT "hdmi_tmds_c0_p" PULL_MODE=NONE DRIVE=8 BANK_VCCIO=3.3;
+
+// --- Audio (banco 2, 3.3 V) ------------------------------------------------
+IO_LOC "audio_out_r" 76;
+IO_PORT "audio_out_r" IO_TYPE=LVCMOS33 DRIVE=8;
+IO_LOC "audio_out_l" 77;
+IO_PORT "audio_out_l" IO_TYPE=LVCMOS33 DRIVE=8;
+
+// --- Joystick 1 (banco 2, 3.3 V, pull-up) ----------------------------------
+IO_LOC "joy_right" 40;
+IO_PORT "joy_right" IO_TYPE=LVCMOS33 PULL_MODE=UP BANK_VCCIO=3.3;
+IO_LOC "joy_left" 34;
+IO_PORT "joy_left" IO_TYPE=LVCMOS33 PULL_MODE=UP BANK_VCCIO=3.3;
+IO_LOC "joy_down" 33;
+IO_PORT "joy_down" IO_TYPE=LVCMOS33 PULL_MODE=UP BANK_VCCIO=3.3;
+IO_LOC "joy_up" 30;
+IO_PORT "joy_up" IO_TYPE=LVCMOS33 PULL_MODE=UP BANK_VCCIO=3.3;
+IO_LOC "joy_fire" 29;
+IO_PORT "joy_fire" IO_TYPE=LVCMOS33 PULL_MODE=UP BANK_VCCIO=3.3;
+
+// --- Reloj ----------------------------------------------------------------
+IO_LOC "CLOCK_27" 52;
+IO_PORT "CLOCK_27" IO_TYPE=LVCMOS33 PULL_MODE=UP BANK_VCCIO=3.3;
+
+// --- Botones (banco 3, 1.8 V) ---------------------------------------------
+IO_LOC "btn_reset" 4;
+IO_PORT "btn_reset" IO_TYPE=LVCMOS18 PULL_MODE=UP;
+IO_LOC "btn_start1" 85;
+IO_PORT "btn_start1" IO_TYPE=LVCMOS18 PULL_MODE=UP;
+IO_LOC "btn_credit" 86;
+IO_PORT "btn_credit" IO_TYPE=LVCMOS18 PULL_MODE=UP;

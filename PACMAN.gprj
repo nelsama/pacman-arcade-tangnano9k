@@ -1,0 +1,40 @@
+<?xml version="1" encoding="UTF-8"?>
+<!DOCTYPE gowin-fpga-project>
+<Project>
+    <Template>FPGA</Template>
+    <Version>5</Version>
+    <Device name="GW1NR-9C" pn="GW1NR-LV9QN88PC6/I5">gw1nr9c-004</Device>
+    <FileList>
+        <File path="src/core/T80.vhd" type="file.vhdl" enable="1"/>
+        <File path="src/core/T80_ALU.vhd" type="file.vhdl" enable="1"/>
+        <File path="src/core/T80_MCode.vhd" type="file.vhdl" enable="1"/>
+        <File path="src/core/T80_Pack.vhd" type="file.vhdl" enable="1"/>
+        <File path="src/core/T80_Reg.vhd" type="file.vhdl" enable="1"/>
+        <File path="src/core/T80sed.vhd" type="file.vhdl" enable="1"/>
+        <File path="src/core/dac.vhd" type="file.vhdl" enable="1"/>
+        <File path="src/core/pacman.vhd" type="file.vhdl" enable="1"/>
+        <File path="src/core/pacman_audio.vhd" type="file.vhdl" enable="1"/>
+        <File path="src/core/pacman_clocks_gowin.vhd" type="file.vhdl" enable="1"/>
+        <File path="src/core/pacman_debounce.vhd" type="file.vhdl" enable="1"/>
+        <File path="src/core/pacman_mul4.vhd" type="file.vhdl" enable="1"/>
+        <File path="src/core/pacman_program_rom.vhd" type="file.vhdl" enable="1"/>
+        <File path="src/core/pacman_rams.vhd" type="file.vhdl" enable="1"/>
+        <File path="src/core/pacman_video.vhd" type="file.vhdl" enable="1"/>
+        <File path="src/core/pacman_render.vhd" type="file.vhdl" enable="1"/>
+        <File path="src/core/pacman_vram_addr.vhd" type="file.vhdl" enable="1"/>
+        <File path="src/core/pacrom_1m.vhd" type="file.vhdl" enable="1"/>
+        <File path="src/core/pacrom_4a_dst.vhd" type="file.vhdl" enable="1"/>
+        <File path="src/core/pacrom_5e.vhd" type="file.vhdl" enable="1"/>
+        <File path="src/core/pacrom_5f.vhd" type="file.vhdl" enable="1"/>
+        <File path="src/core/pacrom_7f_dst.vhd" type="file.vhdl" enable="1"/>
+        <File path="src/core/pkg_pacman.vhd" type="file.vhdl" enable="1"/>
+        <File path="src/gowin/clk_27x5.vhd" type="file.vhdl" enable="1"/>
+        <File path="src/gowin/clk_pacman.vhd" type="file.vhdl" enable="1"/>
+        <File path="src/gowin/hdmi/hdmi_impl.vhd" type="file.vhdl" enable="1"/>
+        <File path="src/gowin/hdmi/hdmi_module.vhd" type="file.vhdl" enable="1"/>
+        <File path="src/gowin/hdmi/tmds_encoder_2.vhd" type="file.vhdl" enable="1"/>
+        <File path="src/top/PACMAN_top.vhd" type="file.vhdl" enable="1"/>
+        <File path="src/top/PACMAN_top.cst" type="file.cst" enable="1"/>
+        <File path="src/top/PACMAN_top.sdc" type="file.sdc" enable="1"/>
+    </FileList>
+</Project>

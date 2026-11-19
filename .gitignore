@@ -1,0 +1,40 @@
+# --- ROMs (copyright de Namco): no se distribuyen ------------------------
+roms/
+*.bin
+pacman-KR260/
+
+# --- Salidas de Gowin -------------------------------------------------------
+impl/gwsynthesis/
+impl/pnr/
+impl/temp/
+*.fs
+PACMAN.gprj.user
+gprj_check.log
+synth.log
+synth.tcl
+
+# --- Simulacion (GHDL) ------------------------------------------------------
+sim/build*/
+sim/golden/
+sim/spr/*.hex
+sim/spr/scene_*.txt
+sim/frame.ppm
+*.o
+*.cf
+*.exe
+e~*.o
+
+# --- IP del framebuffer antiguo (ya no se usa) ------------------------------
+src/gowin_sdp/
+src/gowin/sdp/
+src/core/pacman_framebuffer.vhd
+src/core/pacman_video_out.vhd
+src/core/pacman_dblscan.vhd
+
+# --- Varios -----------------------------------------------------------------
+nul
+__pycache__/
+*.pyc
+
+# IP DVI TX de Gowin generado por el IDE (no se usa; netlist propietario)
+src/gowin/hdmi/dvi_tx_hdmi/
